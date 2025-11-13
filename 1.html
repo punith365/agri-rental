@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AgriRent — Tractor & Tool Rentals for Farmers</title>
+  <meta name="description" content="AgriRent connects farmers with local equipment owners. Book tractors and tools fast with transparent pricing and real-time availability." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            agrigreen: {
+              50: '#f1f8f4', 100: '#dff1e7', 200: '#bfe3cf', 300: '#92cfb0',
+              400: '#5cb98c', 500: '#25a268', 600: '#1b8052', 700: '#166643',
+              800: '#124f35', 900: '#0f3f2b'
+            },
+            agriorange: { 500: '#ff8a00' }
+          }
+        }
+      }
+    }
+  </script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-1J7zYh0m9wL0U0m3p3G2Qnq5p7YzQb8g3c0v1c0Jf8w2G9sZ4o9k8jv8s7j/7h+5rK5y9wO5o3Z6xgkZQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,0.75); }
+    .shadow-soft { box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    
+    /* Custom style for card hover effects */
+    .card-hover {
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px); /* Slight lift */
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12); /* Slightly larger shadow */
+    }
+
+    /* Additional polish for the How It Works section */
+    #how .card-hover:hover {
+        transform: scale(1.02); /* Subtle scale for process steps */
+    }
+    
+    /* Subtle underline for section titles */
+    .section-title-underline {
+        display: inline-block;
+        position: relative;
+        padding-bottom: 0.25rem;
+    }
+    .section-title-underline::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 60%; /* Adjusted width for a subtle look */
+        height: 4px;
+        background-color: theme('colors.agrigreen.500'); /* Use the primary color */
+        border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-agrigreen-50 text-slate-800 antialiased">
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <a href="#home" class="flex items-center gap-2 font-extrabold text-agrigreen-700 text-lg">
+          <span class="h-8 w-8 inline-flex items-center justify-center rounded-xl bg-agrigreen-600 text-white shadow-glow"><i class="fa-solid fa-tractor"></i></span>
+          AgriRent
+        </a>
+        <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+          <a href="#features" class="hover:text-agrigreen-700">Features</a>
+          <a href="#equipment" class="hover:text-agrigreen-700">Equipment</a>
+          <a href="#how" class="hover:text-agrigreen-700">How it works</a>
+          <a href="#impact" class="hover:text-agrigreen-700">Impact</a>
+          <a href="#team" class="hover:text-agrigreen-700">Team</a>
+        </nav>
+        <div class="flex items-center gap-3">
+          <button class="hidden sm:inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm hover:bg-slate-50" onclick="document.getElementById('lang').showModal()"><i class="fa-solid fa-language"></i><span>Language</span></button>
+          <a href="#book" class="inline-flex items-center gap-2 rounded-2xl bg-agrigreen-600 px-4 py-2 text-white font-semibold shadow-soft hover:bg-agrigreen-700 transition duration-150 ease-in-out">
+            <i class="fa-solid fa-bolt"></i><span>Quick Book</span>
+          </a>
+          <button class="md:hidden inline-flex items-center justify-center rounded-xl border p-2 hover:bg-slate-100 focus:ring-2 focus:ring-agrigreen-500 focus:outline-none transition duration-150 ease-in-out" onclick="document.getElementById('mobileMenu').showModal()"><i class="fa-solid fa-bars"></i></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <dialog id="mobileMenu" class="rounded-2xl p-0 w-11/12 max-w-sm">
+    <div class="p-4">
+      <div class="flex items-center justify-between">
+        <div class="font-bold text-agrigreen-700 text-lg">AgriRent</div>
+        <button class="p-2" onclick="mobileMenu.close()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <nav class="mt-4 grid gap-2 text-sm">
+        <a href="#features" onclick="mobileMenu.close()" class="px-3 py-2 rounded-lg hover:bg-slate-100">Features</a>
+        <a href="#equipment" onclick="mobileMenu.close()" class="px-3 py-2 rounded-lg hover:bg-slate-100">Equipment</a>
+        <a href="#how" onclick="mobileMenu.close()" class="px-3 py-2 rounded-lg hover:bg-slate-100">How it works</a>
+        <a href="#impact" onclick="mobileMenu.close()" class="px-3 py-2 rounded-lg hover:bg-slate-100">Impact</a>
+        <a href="#team" onclick="mobileMenu.close()" class="px-3 py-2 rounded-lg hover:bg-slate-100">Team</a>
+      </nav>
+      <div class="mt-4">
+        <a href="#book" onclick="mobileMenu.close()" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-agrigreen-600 px-4 py-2 text-white shadow-soft hover:bg-agrigreen-700"><i class="fa-solid fa-bolt"></i> Quick Book</a>
+      </div>
+    </div>
+  </dialog>
+
+  <section id="home" class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-[url('https://foodtank.com/wp-content/uploads/2020/08/FoodTank_agriculturesubsidiesworldbankreport.jpg')] bg-cover bg-center"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/40 to-black/60"></div>
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+      <div class="max-w-2xl glass rounded-3xl p-6 sm:p-10 text-slate-900">
+        <p class="inline-flex items-center gap-2 rounded-full bg-agrigreen-100 px-3 py-1 text-xs font-semibold text-agrigreen-700"><i class="fa-solid fa-seedling"></i> Built for small & marginal farmers</p>
+        <h1 class="mt-4 text-4xl sm:text-5xl font-extrabold leading-tight">Rent tractors & tools in minutes — <span class="text-agrigreen-700">pay only for hours used</span></h1>
+        <p class="mt-4 text-lg text-slate-700">AgriRent connects farmers with nearby equipment owners. Real-time availability, fixed pricing, and trustworthy reviews.</p>
+        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <a href="#book" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-agrigreen-600 px-6 py-3 text-white font-semibold shadow-soft hover:bg-agrigreen-700 transition duration-150 ease-in-out transform hover:scale-[1.02]"><i class="fa-solid fa-calendar-check"></i> Book now</a>
+          <a href="#equipment" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-6 py-3 font-semibold hover:bg-slate-50 border transition duration-150 ease-in-out"><i class="fa-solid fa-magnifying-glass"></i> Browse equipment</a>
+        </div>
+        <div class="mt-6 text-sm text-slate-700">No language barrier • Easy registration • Digital payments</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid lg:grid-cols-2 gap-10">
+      <div class="bg-white rounded-3xl p-8 shadow-soft border card-hover">
+        <h2 class="text-2xl font-bold section-title-underline">The problem</h2>
+        <p class="mt-2 text-slate-600">Many farmers face financial instability and can't own essential equipment. That leads to unavailability during peak season, delayed operations, and reduced yields.</p>
+        <div class="mt-6 grid grid-cols-2 gap-4 text-center">
+          <div class="rounded-2xl bg-slate-50 p-5">
+            <div class="text-3xl font-extrabold text-agrigreen-700">47%</div>
+            <div class="text-xs uppercase tracking-wide text-slate-500">Owners</div>
+          </div>
+          <div class="rounded-2xl bg-slate-50 p-5">
+            <div class="text-3xl font-extrabold text-agrigreen-700">53%</div>
+            <div class="text-xs uppercase tracking-wide text-slate-500">Non-owners</div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white rounded-3xl p-8 shadow-soft border card-hover">
+        <h2 class="text-2xl font-bold section-title-underline">Our solution</h2>
+        <ul class="mt-4 grid sm:grid-cols-2 gap-4">
+          <li class="rounded-xl border p-4">
+            <div class="font-semibold"><i class="fa-solid fa-link text-agrigreen-600 mr-2"></i>Direct link</div>
+            <p class="text-sm text-slate-600">Connects farmers and owners easily.</p>
+          </li>
+          <li class="rounded-xl border p-4">
+            <div class="font-semibold"><i class="fa-solid fa-clock text-agrigreen-600 mr-2"></i>Quick booking</div>
+            <p class="text-sm text-slate-600">Instant access to nearby equipment.</p>
+          </li>
+          <li class="rounded-xl border p-4">
+            <div class="font-semibold"><i class="fa-solid fa-gauge-high text-agrigreen-600 mr-2"></i>Fast work</div>
+            <p class="text-sm text-slate-600">Reduce delays during peak season.</p>
+          </li>
+          <li class="rounded-xl border p-4">
+            <div class="font-semibold"><i class="fa-solid fa-star text-agrigreen-600 mr-2"></i>Feedback</div>
+            <p class="text-sm text-slate-600">Quality reviews to ensure service.</p>
+          </li>
+        </ul>
+        <div class="mt-6 flex flex-wrap gap-2 text-xs">
+          <span class="rounded-full bg-slate-100 px-3 py-1">GPS & location</span>
+          <span class="rounded-full bg-slate-100 px-3 py-1">Automated timers</span>
+          <span class="rounded-full bg-slate-100 px-3 py-1">UPI / card payments</span>
+          <span class="rounded-full bg-slate-100 px-3 py-1">Multi-language UI</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="equipment" class="bg-white/60 border-t border-b">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16" x-data="catalog()">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+        <div>
+          <h2 class="text-3xl font-extrabold section-title-underline">Browse equipment</h2>
+          <p class="mt-1 text-slate-600">Transparent pricing by hour or acre. Real-time availability.</p>
+        </div>
+        <div class="grid sm:grid-cols-3 gap-3 w-full md:w-auto">
+          <input x-model="filters.query" type="text" placeholder="Search… (tractor, tiller)" class="w-full rounded-xl border px-4 py-2"/>
+          <select x-model="filters.category" class="w-full rounded-xl border px-4 py-2">
+            <option value="">All categories</option>
+            <option>Tractor</option>
+            <option>Tiller</option>
+            <option>Sprayer</option>
+            <option>Harvester</option>
+            <option>Seeder</option>
+          </select>
+          <select x-model="filters.sort" class="w-full rounded-xl border px-4 py-2">
+            <option value="price">Sort: Price</option>
+            <option value="rating">Sort: Rating</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" role="list" aria-label="Equipment list">
+        <template x-for="item in filtered" :key="item.id">
+          <article class="rounded-3xl border bg-white shadow-soft overflow-hidden flex flex-col card-hover">
+            <img :src="item.img" :alt="item.name" class="h-44 w-full object-cover" />
+            <div class="p-5 flex flex-col gap-3 flex-1">
+              <div class="flex items-start justify-between gap-3">
+                <h3 class="font-bold text-lg" x-text="item.name"></h3>
+                <span class="inline-flex items-center gap-1 rounded-full bg-agrigreen-100 px-2.5 py-1 text-xs font-semibold text-agrigreen-700"><i class="fa-solid fa-star"></i> <span x-text="item.rating.toFixed(1)"></span></span>
+              </div>
+              <p class="text-sm text-slate-600" x-text="item.desc"></p>
+              <div class="flex items-center gap-3 text-sm">
+                <span class="inline-flex items-center gap-1 rounded-xl bg-slate-100 px-2.5 py-1" title="Price per hour"><i class="fa-solid fa-indian-rupee-sign"></i> <span x-text="item.price+'/hr'"></span></span>
+                <span class="inline-flex items-center gap-1 rounded-xl bg-slate-100 px-2.5 py-1" title="Location"><i class="fa-solid fa-location-dot"></i> <span x-text="item.location"></span></span>
+              </div>
+              <div class="mt-auto flex items-center gap-2">
+                <button class="inline-flex items-center justify-center gap-2 rounded-xl bg-agrigreen-600 px-4 py-2 text-white font-semibold hover:bg-agrigreen-700 transition duration-150 ease-in-out" @click="openBook(item)"><i class="fa-solid fa-calendar-check"></i> Book</button>
+                <button class="inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-2 font-semibold hover:bg-slate-50 transition duration-150 ease-in-out" @click="openDetails(item)"><i class="fa-regular fa-eye"></i> Details</button>
+              </div>
+            </div>
+          </article>
+        </template>
+      </div>
+
+      <p class="mt-6 text-center text-sm text-slate-500" x-show="filtered.length===0">No items match your filters. Try clearing search or changing category.</p>
+    </div>
+  </section>
+
+  <section id="how" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <h2 class="text-3xl font-extrabold section-title-underline">How it works</h2>
+    <div class="mt-8 grid gap-6 md:grid-cols-3">
+      <div class="rounded-3xl bg-white p-6 border shadow-soft card-hover">
+        <div class="h-10 w-10 rounded-2xl bg-agrigreen-600 text-white grid place-content-center font-bold">1</div>
+        <h3 class="mt-4 font-semibold">Search nearby</h3>
+        <p class="text-sm text-slate-600">Enable location to see equipment within 10–30 km radius.</p>
+      </div>
+      <div class="rounded-3xl bg-white p-6 border shadow-soft card-hover">
+        <div class="h-10 w-10 rounded-2xl bg-agrigreen-600 text-white grid place-content-center font-bold">2</div>
+        <h3 class="mt-4 font-semibold">Pick slot & price</h3>
+        <p class="text-sm text-slate-600">Choose hourly or per-acre. Transparent pricing before you book.</p>
+      </div>
+      <div class="rounded-3xl bg-white p-6 border shadow-soft card-hover">
+        <div class="h-10 w-10 rounded-2xl bg-agrigreen-600 text-white grid place-content-center font-bold">3</div>
+        <h3 class="mt-4 font-semibold">Pay & track</h3>
+        <p class="text-sm text-slate-600">Pay via UPI. Live timer starts on job begin; pay only for time used.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="impact" class="bg-agrigreen-800 text-white">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <div class="grid md:grid-cols-4 gap-6">
+        <div class="rounded-3xl bg-white/10 p-6 card-hover">
+          <div class="text-3xl font-extrabold">90%</div>
+          <p class="mt-1 text-sm opacity-90">Farmland prepared using hired tractors in peak season</p>
+        </div>
+        <div class="rounded-3xl bg-white/10 p-6 card-hover">
+          <div class="text-3xl font-extrabold">-30%</div>
+          <p class="mt-1 text-sm opacity-90">Average reduction in operational delays</p>
+        </div>
+        <div class="rounded-3xl bg-white/10 p-6 card-hover">
+          <div class="text-3xl font-extrabold">4.8★</div>
+          <p class="mt-1 text-sm opacity-90">Average service rating from farmers</p>
+        </div>
+        <div class="rounded-3xl bg-white/10 p-6 card-hover">
+          <div class="text-3xl font-extrabold">₹ saved</div>
+          <p class="mt-1 text-sm opacity-90">Renting is low-cost vs owning tractors</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <h2 class="text-3xl font-extrabold section-title-underline">What farmers say</h2>
+    <div class="mt-8 grid gap-6 md:grid-cols-3">
+      <figure class="rounded-3xl border bg-white p-6 shadow-soft card-hover">
+        <blockquote class="text-slate-700">“Booked a tractor in 10 minutes. Work finished same day.”</blockquote>
+        <figcaption class="mt-4 text-sm text-slate-500">— Ramesh, Tumakuru</figcaption>
+      </figure>
+      <figure class="rounded-3xl border bg-white p-6 shadow-soft card-hover">
+        <blockquote class="text-slate-700">“Clear price and timer. Paid only for actual hours used.”</blockquote>
+        <figcaption class="mt-4 text-sm text-slate-500">— Kavitha, Mandya</figcaption>
+      </figure>
+      <figure class="rounded-3xl border bg-white p-6 shadow-soft card-hover">
+        <blockquote class="text-slate-700">“Owner arrived on time. Easy UPI payment.”</blockquote>
+        <figcaption class="mt-4 text-sm text-slate-500">— Imran, Hassan</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  
+  <footer class="bg-agrigreen-900 text-white">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+      <div class="grid gap-8 md:grid-cols-4">
+        <div>
+          <div class="flex items-center gap-2 font-extrabold text-white text-lg">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-white text-agrigreen-700"><i class="fa-solid fa-tractor"></i></span>
+            AgriRent
+          </div>
+          <p class="mt-3 text-sm text-white/80">Connecting farmers and owners with trusted, fast, and low-cost rentals.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold">Company</h4>
+          <ul class="mt-3 space-y-2 text-sm text-white/80">
+            <li><a href="#team" class="hover:text-white">Team</a></li>
+            <li><a href="#impact" class="hover:text-white">Impact</a></li>
+            <li><a href="#how" class="hover:text-white">How it works</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold">Support</h4>
+          <ul class="mt-3 space-y-2 text-sm text-white/80">
+            <li><a href="#" class="hover:text-white">Help Center</a></li>
+            <li><a href="#" class="hover:text-white">Owner onboarding</a></li>
+            <li><a href="#" class="hover:text-white">Farmer safety</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold">Get the app</h4>
+          <div class="mt-3 flex gap-3">
+            <a href="#" class="inline-flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-slate-900 text-sm font-semibold"><i class="fa-brands fa-google-play"></i> Play Store</a>
+            <a href="#" class="inline-flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-slate-900 text-sm font-semibold"><i class="fa-brands fa-apple"></i> App Store</a>
+          </div>
+        </div>
+      </div>
+      <div class="mt-10 border-t border-white/20 pt-6 text-xs text-white/70">© <span id="year"></span> AgriRent. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <dialog id="bookDialog" class="rounded-2xl p-0 w-11/12 max-w-2xl">
+    <form method="dialog" class="p-6" x-data="{ payment: 'upi' }">
+      <div class="flex items-start justify-between gap-4">
+        <h3 class="text-xl font-bold">Book equipment</h3>
+        <button class="p-2" onclick="bookDialog.close()" type="button"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        <div>
+          <label class="text-sm font-medium">Equipment</label>
+          <input id="bookItem" class="mt-1 w-full rounded-xl border px-3 py-2" readonly />
+        </div>
+        <div>
+          <label class="text-sm font-medium">Location</label>
+          <input id="bookLocation" class="mt-1 w-full rounded-xl border px-3 py-2" readonly />
+        </div>
+        <div>
+          <label class="text-sm font-medium">Date</label>
+          <input type="date" class="mt-1 w-full rounded-xl border px-3 py-2" required />
+        </div>
+        <div>
+          <label class="text-sm font-medium">Time slot</label>
+          <select class="mt-1 w-full rounded-xl border px-3 py-2" required>
+            <option>6:00–10:00</option>
+            <option>10:00–14:00</option>
+            <option>14:00–18:00</option>
+            <option>Night (18:00–22:00)</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm font-medium">Billing</label>
+          <select class="mt-1 w-full rounded-xl border px-3 py-2" required>
+            <option>Hourly</option>
+            <option>Per acre</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm font-medium">Payment</label>
+          <div class="mt-1 grid grid-cols-3 gap-2 text-sm">
+            <label class="flex items-center gap-2 rounded-xl border px-3 py-2 cursor-pointer"><input type="radio" name="pay" value="upi" checked /> UPI</label>
+            <label class="flex items-center gap-2 rounded-xl border px-3 py-2 cursor-pointer"><input type="radio" name="pay" value="card" /> Card</label>
+            <label class="flex items-center gap-2 rounded-xl border px-3 py-2 cursor-pointer"><input type="radio" name="pay" value="cash" /> Cash</label>
+          </div>
+        </div>
+      </div>
+      <div class="mt-6 flex items-center justify-end gap-3">
+        <button type="button" class="rounded-xl border px-4 py-2" onclick="bookDialog.close()">Cancel</button>
+        <button class="rounded-xl bg-agrigreen-600 px-5 py-2 text-white font-semibold hover:bg-agrigreen-700 transition duration-150 ease-in-out">Confirm booking</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="detailsDialog" class="rounded-2xl p-0 w-11/12 max-w-2xl">
+    <div class="p-6">
+      <div class="flex items-start justify-between gap-4">
+        <h3 class="text-xl font-bold" id="detailsTitle"></h3>
+        <button class="p-2" onclick="detailsDialog.close()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <img id="detailsImg" class="mt-4 h-56 w-full object-cover rounded-2xl" alt="Equipment image" />
+      <p class="mt-4 text-slate-700" id="detailsDesc"></p>
+      <ul class="mt-4 grid sm:grid-cols-2 gap-2 text-sm">
+        <li class="rounded-xl bg-slate-100 px-3 py-2"><i class="fa-solid fa-indian-rupee-sign mr-2"></i><span id="detailsPrice"></span> per hour</li>
+        <li class="rounded-xl bg-slate-100 px-3 py-2"><i class="fa-solid fa-location-dot mr-2"></i><span id="detailsLocation"></span></li>
+        <li class="rounded-xl bg-slate-100 px-3 py-2"><i class="fa-solid fa-gauge-high mr-2"></i> Hour meter & timer enabled</li>
+        <li class="rounded-xl bg-slate-100 px-3 py-2"><i class="fa-solid fa-shield-heart mr-2"></i> Verified owner</li>
+      </ul>
+      <div class="mt-6 flex items-center justify-end">
+        <button class="rounded-xl bg-agrigreen-600 px-5 py-2 text-white font-semibold hover:bg-agrigreen-700 transition duration-150 ease-in-out" onclick="detailsDialog.close();">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="lang" class="rounded-2xl p-0 w-11/12 max-w-md">
+    <div class="p-6">
+      <div class="flex items-start justify-between gap-4">
+        <h3 class="text-xl font-bold">Choose language</h3>
+        <button class="p-2" onclick="lang.close()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="mt-4 grid grid-cols-2 gap-2 text-sm">
+        <button class="rounded-xl border px-3 py-2 hover:bg-slate-50">English</button>
+        <button class="rounded-xl border px-3 py-2 hover:bg-slate-50">ಕನ್ನಡ</button>
+        <button class="rounded-xl border px-3 py-2 hover:bg-slate-50">हिन्दी</button>
+        <button class="rounded-xl border px-3 py-2 hover:bg-slate-50">தமிழ்</button>
+      </div>
+      <div class="mt-6 text-right">
+        <button class="rounded-xl bg-agrigreen-600 px-5 py-2 text-white font-semibold hover:bg-agrigreen-700" onclick="lang.close()">Done</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Simple catalog data + filtering
+    function catalog() {
+      return {
+        filters: { query: '', category: '', sort: 'price' },
+        items: [
+          { id: 1, name: 'Mahindra 575 DI Tractor', category: 'Tractor', price: 650, rating: 4.8, location: 'Tumakuru', img: 'https://www.mahindratractor.com/sites/default/files/2023-08/575-DI-SP-PLUS.png', desc: '45–50 HP tractor ideal for ploughing and hauling.' },
+          { id: 2, name: 'Power Tiller 10HP', category: 'Tiller', price: 300, rating: 4.6, location: 'Mandya', img: 'https://s.alicdn.com/@sc04/kf/Heb29fcb395a04165b2783798c65c4c10W.jpg?avif=close&webp=close' },
+          { id: 3, name: 'Boom Sprayer 400L', category: 'Sprayer', price: 250, rating: 4.5, location: 'Hassan', img: 'https://www.agsuperstore.com.au/cdn/shop/files/LinkOn-HiRes-0661-1024x683_593x395.jpg?v=1714703232', desc: 'Uniform spray with 10m boom; adjustable nozzles.' },
+          { id: 4, name: 'Mini Harvester', category: 'Harvester', price: 1200, rating: 4.7, location: 'Chitradurga', img: 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRf1mIX1wErqq1CHy00qBK3Di7KOcbfotUdlsJjH4aaHfTJ6m2iXTl2SLB4C7IIXX7s92A6qm4n8_iVo1HG3RsmH1fIiiU6q8lmNgrTq5Cv', desc: 'Efficient harvesting for paddy & wheat in small fields.' },
+          { id: 5, name: 'Seed Cum Fertilizer Drill', category: 'Seeder', price: 400, rating: 4.4, location: 'Ramanagara', img: 'https://img1.wsimg.com/isteam/ip/3cf5125b-f0d4-4237-8288-946f160381c2/zero%20till%20drill%202024%2012.jpg/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:1240,cg:true', desc: 'Sows seeds and applies fertilizer in one pass.' },
+          { id: 6, name: 'Rotavator 6ft', category: 'Tiller', price: 500, rating: 4.6, location: 'Tumakuru', img: 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSlZTYx42YoqeH0qh5NaMzRgZUchB6phv6stYeVUX-ud-MsunCP6kslY_P7ctIA5BrBr0g9vSWwrqzmipfq1KZ3ku5S2kGi6JCZdA2PwuowMFDXds9VZkxPQ', desc: 'Soil preparation with adjustable depth control.' }
+        ],
+        get filtered() {
+          let q = this.filters.query.toLowerCase();
+          let list = this.items.filter(it => (
+            (!this.filters.category || it.category === this.filters.category) &&
+            (!q || it.name.toLowerCase().includes(q) || it.desc.toLowerCase().includes(q))
+          ));
+          if (this.filters.sort === 'price') list.sort((a,b)=>a.price-b.price); else list.sort((a,b)=>b.rating-a.rating);
+          return list;
+        },
+      }
+    }
+
+    // Booking + Details helpers
+    function openBook(item){
+      document.getElementById('bookItem').value = item.name;
+      document.getElementById('bookLocation').value = item.location;
+      document.getElementById('bookDialog').showModal();
+    }
+    function openDetails(item){
+      document.getElementById('detailsTitle').textContent = item.name;
+      document.getElementById('detailsDesc').textContent = item.desc;
+      document.getElementById('detailsPrice').textContent = '₹'+item.price;
+      document.getElementById('detailsLocation').textContent = item.location;
+      document.getElementById('detailsImg').src = item.img;
+      document.getElementById('detailsDialog').showModal();
+    }
+    window.openBook = openBook; window.openDetails = openDetails;
+  </script>
+</body>
+</html>
